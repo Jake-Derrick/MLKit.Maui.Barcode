@@ -6,6 +6,11 @@
 public interface IBarcodeService
 {
     /// <summary>
+    /// Sets the barcode formats to be recognized by the BarcodeService.
+    /// </summary>
+    void SetBarcodeFormats(params BarcodeFormat[] barcodeFormats);
+
+    /// <summary>
     /// Scans an image for barcodes.
     /// </summary>
     /// <param name="imageFile">The image to get barcodes from</param>

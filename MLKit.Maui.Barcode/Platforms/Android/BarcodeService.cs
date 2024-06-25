@@ -13,9 +13,15 @@ namespace MLKit.Maui.Barcode;
 /// </summary>
 public class BarcodeService : IBarcodeService
 {
-    private readonly int[] _barcodeFormats;
+    private int[] _barcodeFormats;
 
-    public BarcodeService(HashSet<BarcodeFormat> barcodeFormats)
+    public BarcodeService(BarcodeFormat[] barcodeFormats)
+    {
+        SetBarcodeFormats(barcodeFormats);
+    }
+
+    /// <inheritdoc />
+    public void SetBarcodeFormats(params BarcodeFormat[] barcodeFormats)
     {
         _barcodeFormats = barcodeFormats.ToAndroidFormat();
     }
@@ -23,10 +29,6 @@ public class BarcodeService : IBarcodeService
     /// <inheritdoc />
     public async Task<List<BarcodeResult>> GetBarcodesFromImage(FileResult imageFile)
     {
-        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-        if (status != PermissionStatus.Granted)
-            throw new PermissionException("StorageRead Permission Required. Please call RequestBarcodeServicePermissions before using this.");
-
         using var stream = await imageFile.OpenReadAsync();
         using var bitmap = BitmapFactory.DecodeStream(stream);
 
@@ -60,7 +62,7 @@ public class BarcodeService : IBarcodeService
         return ConvertToBarcodeResults(javaList);
     }
 
-    private List<BarcodeResult> ConvertToBarcodeResults(ArrayList barcodes)
+    private static List<BarcodeResult> ConvertToBarcodeResults(ArrayList barcodes)
     {
         var barcodeResults = new List<BarcodeResult>();
 
