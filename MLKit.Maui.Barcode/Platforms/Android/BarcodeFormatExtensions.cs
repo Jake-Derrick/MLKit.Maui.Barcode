@@ -7,9 +7,9 @@ namespace MLKit.Maui.Barcode;
 /// </summary>
 public static class BarcodeFormatExtensions
 {
-    public static int[] ToAndroidFormat(this HashSet<BarcodeFormat> formats)
+    public static int[] ToAndroidFormat(this BarcodeFormat[] formats)
     {
-        if (formats.Count == 0)
+        if (formats.Length == 0)
             return [AndroidBarcode.FormatAllFormats];
 
         var result = new List<int>();

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Example.App.BarcodeExampleView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ListToStringConverter x:Key="ListToStringConverter" Separator="," />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="{Binding ErrorMessage}" TextColor="Red"/>
+            <Button Text="Select Image With Barcodes" Command="{Binding SelectImageCommand}"/>
+            <Image Source="{Binding ImageSource}"/>
+
+            <CollectionView ItemsSource="{Binding BarcodeResults}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical" Padding="10">
+                            <Label Text="{Binding DisplayValue, StringFormat='Value: {0}'}" FontSize="Medium" Padding="5"/>
+                            <Label Text="{Binding Format, StringFormat='Barcode Format: {0}'}" FontSize="Small" Padding="5"/>
+                            <Label Text="{Binding CornerPoints, StringFormat='Corner Points: {0}', Converter={StaticResource ListToStringConverter}}" FontSize="Small" Padding="5"/>
+                            <BoxView Color="Gray" HeightRequest="1" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
